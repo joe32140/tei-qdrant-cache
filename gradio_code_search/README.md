@@ -1,5 +1,7 @@
 ## Gradio Code Search App
 
+![ui.png](ui.png)
+
 This repository also includes a simple Gradio application located in the `gradio_code_search/` directory. This app allows you to:
 
 1.  Index code files from a GitHub repository or a local directory.
