@@ -2,7 +2,7 @@
 
 This repository provides a configuration to serve a Hugging Face text embedding model using `text-embeddings-inference` (TEI) deployed across multiple GPUs. It includes a caching layer built with FastAPI and Qdrant to optimize performance for repeated requests, and uses Nginx internally to load balance requests to the TEI instances for cache misses.
 
-See blog post here: TBA
+See blog post here: https://chaochunhsu.github.io/patterns/blogs/tei_qdrant_cache/
 
 ## Architecture
 
