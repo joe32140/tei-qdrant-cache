@@ -1,0 +1,10 @@
+# cache_proxy/requirements.txt
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+gunicorn>=21.2.0 # Optional: If using gunicorn in CMD
+httpx>=0.24.0
+qdrant-client>=1.7.0 # Ensure a version that supports AsyncQdrantClient well
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+orjson>=3.9.0

@@ -128,7 +128,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -172,3 +171,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# for this repo
+gradio_code_search/qdrant_data/
+docker-compose.yml
