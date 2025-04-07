@@ -180,6 +180,13 @@ See example of repository retreival in `gradio_code_search/` after finishing emb
     docker compose down -v
     ```
 
+6.  **Reset Qdrant docker volumn (optional)**
+
+    Remove exsiting Qdrant database by:
+    ```bash
+    docker volume rm qdrant-storage
+    ```
+
 ## Scaling / Changing GPU Count
 
 To change the number of TEI instances:
@@ -200,7 +207,6 @@ To change the number of TEI instances:
     ```
     Docker Compose will adjust the running containers to match the new configuration.
 
-## Notes & Considerations
 
 *   **`EMBEDDING_DIMENSION`:** Setting this correctly in `.env` is critical for Qdrant to function properly. Find the dimension from your model's documentation or Hugging Face page.
 *   **Cache Invalidation:** This setup caches embeddings indefinitely based on the hash of the input text. There's no built-in mechanism for automatic cache invalidation (e.g., based on time or if the model changes). To force re-computation, you would need to manually clear the Qdrant collection (e.g., via Qdrant's API or UI if exposed) or implement a TTL mechanism within the `cache_proxy` service.
