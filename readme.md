@@ -68,7 +68,7 @@ See example of repository retreival in `gradio_code_search/` after finishing emb
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/joe32140/tei-qdrant-cache.git
-    cd tei-nginx-qdrant-cache
+    cd tei-qdrant-cache
     ```
 2.  **Prepare the Cache Proxy Code:** Ensure the `cache_proxy/` directory exists and contains all the necessary Python files (`main.py`, `config.py`, `schemas.py`, `qdrant_utils.py`), `requirements.txt`, and the `Dockerfile`.
 
