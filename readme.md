@@ -57,7 +57,7 @@ tei-nginx-qdrant-cache/
 
 ## Prerequisites
 *   Docker Compose
-*   NVIDIA Container Toolkit (to allow Docker containers access to GPUs)
+*   [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) (to allow Docker containers access to GPUs)
 *   A multi-GPU machine (or adjust `NUM_REPLICAS` for single GPU testing)
 
 ## Example
