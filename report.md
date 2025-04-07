@@ -2,32 +2,32 @@
 
 ```mermaid
 graph TD
-    Client([Client]) -- "POST /embed (Texts)" --> CacheProxy[Cache Proxy (FastAPI)];
+    Client([Client]) -- "POST /embed (Texts)" --> CacheProxy[Cache Proxy (FastAPI)]
 
     subgraph "Docker Network (docker-compose services)"
         %% Internal Cache Proxy Logic %%
-        CacheProxy -- "1. Hash Texts -> UUIDs" --> CacheProxy;
-        CacheProxy -- "2. Query Cache by UUID(s)" --> QdrantCache[(Qdrant Cache Store)];
+        CacheProxy -- "1. Hash Texts -> UUIDs" --> CacheProxy
+        CacheProxy -- "2. Query Cache by UUID(s)" --> QdrantCache[(Qdrant Cache Store)]
 
         %% Cache Hit Path %%
-        QdrantCache -- "3a. Cache Hit (Return Vectors)" --> CacheProxy;
-        CacheProxy -- "4a. Return Cached Result" --> Client;
+        QdrantCache -- "3a. Cache Hit (Return Vectors)" --> CacheProxy
+        CacheProxy -- "4a. Return Cached Result" --> Client
 
         %% Cache Miss Path %%
-        QdrantCache -- "3b. Cache Miss" --> CacheProxy;
-        CacheProxy -- "4b. Forward Missed Texts (Batched)" --> NginxLB[Nginx Internal LB];
+        QdrantCache -- "3b. Cache Miss" --> CacheProxy
+        CacheProxy -- "4b. Forward Missed Texts (Batched)" --> NginxLB[Nginx Internal LB]
 
         subgraph "TEI Inference Replicas"
             direction LR
-            NginxLB -- "5b. Load Balance" --> TEI1[TEI Instance (GPU 0)];
-            NginxLB --> TEI_N[... TEI Instance (GPU N-1)];
-            TEI1 -- "6b. Compute & Return Embedding(s)" --> NginxLB;
-            TEI_N --> NginxLB;
+            NginxLB -- "5b. Load Balance" --> TEI1[TEI Instance (GPU 0)]
+            NginxLB --> TEI_N[... TEI Instance (GPU N-1)]
+            TEI1 -- "6b. Compute & Return Embedding(s)" --> NginxLB
+            TEI_N --> NginxLB
         end
 
-        NginxLB -- "7b. Return Embedding(s)" --> CacheProxy;
-        CacheProxy -- "8b. Store New Embedding(s) (Async)" --> QdrantCache;
-        CacheProxy -- "9b. Return Combined Result" --> Client;
+        NginxLB -- "7b. Return Embedding(s)" --> CacheProxy
+        CacheProxy -- "8b. Store New Embedding(s) (Async)" --> QdrantCache
+        CacheProxy -- "9b. Return Combined Result" --> Client
     end
 
     %% Styling %%
@@ -38,7 +38,6 @@ graph TD
     style TEI1 fill:#fcc,stroke:#333,stroke-width:2px
     style TEI_N fill:#fcc,stroke:#333,stroke-width:2px
 ```
-
 ## 1. Introduction
 
 This report summarizes the design and implementation of a system for serving text embeddings using multiple GPUs, incorporating a caching layer to enhance performance and reduce redundant computations. The goal was to leverage Hugging Face's `text-embeddings-inference` (TEI) across several GPUs while implementing a cache based on input text hashes, using Qdrant as the persistent cache store. The final architecture utilizes FastAPI for the caching proxy, Qdrant for the cache, Nginx for internal load balancing, and Docker Compose for orchestration.
