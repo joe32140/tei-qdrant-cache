@@ -66,16 +66,21 @@ async def search_code_handler(query: str, collection_name: Optional[str], top_k:
         text_content = payload.get("text", "[Error: Text not found in payload]")
         score = hit.score
 
-        # Escape HTML within the code block for safe rendering
-        escaped_text = escape_html_tags(text_content.strip())
+
+        # --- CHANGE: Don't escape, don't use code blocks ---
+        # Instead, wrap the raw content in an HTML blockquote
+        # This allows internal Markdown to be rendered by Gradio's engine
 
         markdown_output += f"### Result {i+1} (Score: {score:.4f})\n"
         markdown_output += f"**File:** `{file_path}` (Lines: {start_line}-{end_line})\n\n"
-        # Use Markdown code block with language hint (optional, 'python' is a guess)
-        # Or use <pre><code> for guaranteed literal display
-        markdown_output += f"```\n{escaped_text}\n```\n\n"
-        # markdown_output += f"<pre><code>{escaped_text}</code></pre>\n\n" # Alternative using HTML
-        markdown_output += "---\n\n"
+        # Wrap the potentially Markdown-containing text in a blockquote
+        # Use .strip() on the content to avoid extra blank lines inside the quote
+        markdown_output += f"<blockquote>\n{text_content.strip()}\n</blockquote>\n\n"
+        # --- End Change ---
+
+        # Add horizontal bar *between* results (outside the blockquote)
+        if i < len(search_results) - 1:
+            markdown_output += "---\n\n"
 
     logger.info(f"Search successful. Returning {len(search_results)} results. Time: {search_time:.2f}s")
     return markdown_output
