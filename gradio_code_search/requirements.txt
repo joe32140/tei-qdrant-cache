@@ -1,6 +1,8 @@
-gradio>=4.0.0 # Use a recent version of Gradio
-qdrant-client>=1.7.0
-httpx>=0.24.0
-GitPython>=3.1.0 # For cloning GitHub repos
-python-dotenv>=1.0.0
-loguru>=0.7.0 # Nicer logging (optional)
+gradio
+python-dotenv
+loguru         # Or remove if using standard logging
+httpx
+qdrant-client>=1.7.0 # Use a recent version
+GitPython      # For cloning GitHub repos
+psutil         # For memory logging (optional but recommended)
+tenacity       # For retries in embedding client

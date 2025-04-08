@@ -24,11 +24,17 @@ logger = logging.getLogger(__name__)
 # Define batch size for requests sent TO the TEI endpoint
 # Adjust this based on model token limits and average chunk size
 # Start low (e.g., 8 or 16) and increase if needed.
-TEI_REQUEST_BATCH_SIZE = 16 # Example value, tune this!
+TEI_REQUEST_BATCH_SIZE = 32 # Example value, tune this!
 
 # --- Hashing Function ---
 def get_text_hash(text: str) -> uuid.UUID:
-    """Calculates SHA256 hash and returns it as a UUID object."""
+    """Calculates SHA256 hash and returns it as a UUID object.
+    
+    # A UUID is 128 bits (16 bytes) which requires 32 hex characters to represent.
+    # The hash_hex string contains more characters than needed for a UUID, so we only
+    # take the first 32 hex chars (16 bytes) to create a valid UUID object.
+    # The remaining hash characters are truncated since UUIDs have a fixed size.
+    """
     hasher = hashlib.new(config.settings.cache_hash_function)
     hasher.update(text.encode('utf-8'))
     hash_hex = hasher.hexdigest()

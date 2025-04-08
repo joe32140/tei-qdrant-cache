@@ -173,5 +173,5 @@ cython_debug/
 .pypirc
 
 # for this repo
-gradio_code_search/qdrant_data/
+qdrant_data/
 docker-compose.yml
